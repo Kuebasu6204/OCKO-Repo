@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2ee70105810bef94f9223c980eb670ab
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 315434
+  packageName: 2D Simple Nature Pack
+  packageVersion: 1.0
+  assetPath: Assets/Clouded Studio/2D Simple Nature Pack/Materials/ShaderGraph_Vegetation_Wind_Lit.mat
+  uploadId: 744857
