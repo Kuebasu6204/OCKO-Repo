@@ -40,6 +40,20 @@ public class RealPlayerControls : MonoBehaviour
 
     private float targetScaleY = 1f;
 
+    [Header("Attack")]
+    public Vector2 attackSize = new Vector2(0.9f, 0.6f);
+    public float attackOffsetX = 0.6f;      // distance in front of the player
+    public float attackDamage = 10f;
+    public float attackKnockback = 6f;
+    public float attackStartup = 0.05f;     // wind-up before hitbox
+    public float attackActive = 0.10f;      // hitbox "live" window
+    public float attackRecovery = 0.15f;    // lockout after the swing
+    public float attackCooldown = 0.05f;    // time before next attack can start
+    public LayerMask enemyLayer;
+
+    private bool isAttacking;
+    private int facingDir = 1;
+    private float lastAttackTime = -10f;
 
     private void Start()
     {
@@ -51,6 +65,7 @@ public class RealPlayerControls : MonoBehaviour
     void Update()
     {
         float speed = isCrouching ? moveSpeed * crouchSpeedMultiplier : moveSpeed;
+        if (isAttacking) speed = 0f;
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
         GroundCheck();
         Gravity();
@@ -77,11 +92,62 @@ public class RealPlayerControls : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
+
+        if (Mathf.Abs(horizontalMovement) > 0.01f)
+            facingDir = horizontalMovement > 0 ? 1 : -1;
+    }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (context.performed
+            && !isAttacking
+            && !isCrouching
+            && isGrounded
+            && Time.time - lastAttackTime >= attackCooldown)
+        {
+            StartCoroutine(PerformAttack());
+        }
+    }
+
+    private IEnumerator PerformAttack()
+    {
+        isAttacking = true;
+        lastAttackTime = Time.time;
+
+        // trigger animator here?: SetTrigger("Attack")
+
+        yield return new WaitForSeconds(attackStartup);
+
+        DoHitCheck();
+
+        yield return new WaitForSeconds(attackActive);
+        yield return new WaitForSeconds(attackRecovery);
+
+        isAttacking = false;
+    }
+
+    private void DoHitCheck()
+    {
+        Vector2 center = (Vector2)transform.position
+                         + new Vector2(facingDir * attackOffsetX, 0f);
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, attackSize, 0f, enemyLayer);
+
+        foreach (var hit in hits)
+        {
+            if (hit.gameObject == gameObject) continue;
+
+            var target = hit.GetComponent<IDamageable>();
+            if (target == null) continue;
+
+            Vector2 knockback = new Vector2(facingDir, 0.35f).normalized * attackKnockback;
+            target.TakeDamage(attackDamage, knockback);
+        }
     }
 
     public void Drop (InputAction.CallbackContext context)
     {
-        if (context.performed && isGrounded)
+        if (context.performed && isGrounded && !isAttacking)
         {
             float timeSinceLast = Time.time - lastDownPressTime;
             lastDownPressTime = Time.time;
@@ -121,7 +187,7 @@ public class RealPlayerControls : MonoBehaviour
                     (Vector2)transform.position + originalOffset,
                     originalSize, 0f, groundLayer))
             {
-                isCrouching = true;   // can't stand — stay crouched
+                isCrouching = true;
                 return;
             }
             playerCollider.size = originalSize;
@@ -185,5 +251,19 @@ public class RealPlayerControls : MonoBehaviour
     {
         Gizmos.color = Color.white;
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheckPos != null)
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+        }
+
+        Gizmos.color = Color.red;
+        Vector2 center = (Vector2)transform.position
+                         + new Vector2(facingDir * attackOffsetX, 0f);
+        Gizmos.DrawWireCube(center, attackSize);
     }
 }
