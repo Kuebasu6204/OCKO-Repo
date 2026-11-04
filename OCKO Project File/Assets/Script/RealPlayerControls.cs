@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,23 +20,45 @@ public class RealPlayerControls : MonoBehaviour
     public Transform groundCheckPos;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.05f);
     public LayerMask groundLayer;
-    bool isGrounded;
-    bool isOnPlatform;
+    private bool isGrounded;
+    private bool isOnPlatform;
 
     public float baseGravity = 2f;
     public float maxFallSpeed = 18f;
     public float fallSpeedMuliplier = 2f;
 
+    public float crouchSpeedMultiplier = 0.5f;
+    public float doubleTapWindow = 0.25f;  
+    private float lastDownPressTime = -10f;
+    private bool isCrouching;
+
+    private Vector2 originalSize;
+    private Vector2 originalOffset;
+    public Transform spriteTransform;      
+    public float crouchScaleY = 0.5f;
+    public float scaleLerpSpeed = 15f;      // smooth transition; ~10–20 feels good
+
+    private float targetScaleY = 1f;
+
+
     private void Start()
     {
         playerCollider = GetComponent<BoxCollider2D>();
+        originalSize = playerCollider.size;
+        originalOffset = playerCollider.offset;
     }
 
     void Update()
     {
+        float speed = isCrouching ? moveSpeed * crouchSpeedMultiplier : moveSpeed;
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
         GroundCheck();
         Gravity();
+        float current = spriteTransform.localScale.y;
+        float next = Mathf.Lerp(current, targetScaleY,
+                                Time.deltaTime * scaleLerpSpeed);
+        spriteTransform.localScale = new Vector3(
+            spriteTransform.localScale.x, next, spriteTransform.localScale.z);
     }
 
     private void Gravity()
@@ -59,21 +81,60 @@ public class RealPlayerControls : MonoBehaviour
 
     public void Drop (InputAction.CallbackContext context)
     {
-        if(context.performed && isGrounded && isOnPlatform && playerCollider.enabled)
+        if (context.performed && isGrounded)
         {
-            StartCoroutine(DisablePlayerCollider(0.25f));
+            float timeSinceLast = Time.time - lastDownPressTime;
+            lastDownPressTime = Time.time;
+
+            if (timeSinceLast <= doubleTapWindow && isOnPlatform && playerCollider.enabled)
+            {
+                // Double tap on a platform → drop through
+                SetCrouch(false);
+                StartCoroutine(DisablePlayerCollider(0.25f));
+            }
+            else
+            {
+                // Single tap → crouch
+                SetCrouch(true);
+            }
+        }
+        else if (context.canceled)
+        {
+            SetCrouch(false);
         }
     }
 
-    private void StartCoroutine(IEnumerable enumerable)
+    private void SetCrouch(bool crouch)
     {
-        throw new NotImplementedException();
+        isCrouching = crouch;
+        targetScaleY = crouch ? crouchScaleY : 1f;
+
+        if (crouch)
+        {
+            playerCollider.size = new Vector2(originalSize.x, originalSize.y * 0.5f);
+            playerCollider.offset = new Vector2(originalOffset.x, originalOffset.y - originalSize.y * 0.25f);
+        }
+        else
+        {
+            // ⚠️ Check for room above before standing up
+            if (Physics2D.OverlapBox(
+                    (Vector2)transform.position + originalOffset,
+                    originalSize, 0f, groundLayer))
+            {
+                isCrouching = true;   // can't stand — stay crouched
+                return;
+            }
+            playerCollider.size = originalSize;
+            playerCollider.offset = originalOffset;
+        }
     }
 
-    private IEnumerable DisablePlayerCollider (float disableTime)
+ private IEnumerator DisablePlayerCollider (float disableTime)
     {
         playerCollider.enabled = false;
         yield return new WaitForSeconds(disableTime);
+        while (Physics2D.OverlapBox(playerCollider.bounds.center, playerCollider.bounds.size, 0f, groundLayer))
+            yield return null;
         playerCollider.enabled = true;
     }
 
@@ -108,12 +169,13 @@ public class RealPlayerControls : MonoBehaviour
                 jumpsRemaining--;
             }
         }
-       
+        if (isCrouching) return;
     }
 
     private void GroundCheck()
     {
-        if (Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer))
+        isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+        if (isGrounded)
         {
             jumpsRemaining = maxJumps;
         }

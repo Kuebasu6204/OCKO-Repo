@@ -37,17 +37,7 @@
                     "priority": 0
                 },
                 {
-                    "name": "Crouch",
-                    "type": "Button",
-                    "id": "3238945c-afa3-4fbc-9667-c7cf8c922e60",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
-                },
-                {
-                    "name": "Drop",
+                    "name": "Crouch + Drop",
                     "type": "Button",
                     "id": "f2c3899c-1447-4b64-a9ef-3939da0d12e5",
                     "expectedControlType": "",
@@ -192,34 +182,12 @@
                 },
                 {
                     "name": "",
-                    "id": "5c76b855-a72a-4e4f-92c2-3b49940d4110",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "772cc293-d45e-4e8f-92d6-5d181e4ab892",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard2",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ece958ba-490d-444f-ad74-550a89b4dc84",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Drop",
+                    "action": "Crouch + Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -230,7 +198,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard2",
-                    "action": "Drop",
+                    "action": "Crouch + Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
