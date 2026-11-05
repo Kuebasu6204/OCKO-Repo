@@ -55,17 +55,21 @@ public class RealPlayerControls : MonoBehaviour
     private int facingDir = 1;
     private float lastAttackTime = -10f;
 
+    private Health health;
+
     private void Start()
     {
         playerCollider = GetComponent<BoxCollider2D>();
         originalSize = playerCollider.size;
         originalOffset = playerCollider.offset;
+        health = GetComponent<Health>();
     }
 
     void Update()
     {
         float speed = isCrouching ? moveSpeed * crouchSpeedMultiplier : moveSpeed;
         if (isAttacking) speed = 0f;
+        if (isAttacking || (health != null && health.IsInHitstun)) speed = 0f;
         rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
         GroundCheck();
         Gravity();
@@ -107,6 +111,7 @@ public class RealPlayerControls : MonoBehaviour
         {
             StartCoroutine(PerformAttack());
         }
+        if (health != null && health.IsInHitstun) return;
     }
 
     private IEnumerator PerformAttack()
@@ -168,6 +173,7 @@ public class RealPlayerControls : MonoBehaviour
         {
             SetCrouch(false);
         }
+        if (health != null && health.IsInHitstun) return;
     }
 
     private void SetCrouch(bool crouch)
@@ -182,7 +188,7 @@ public class RealPlayerControls : MonoBehaviour
         }
         else
         {
-            // ⚠️ Check for room above before standing up
+            // Check for room above before standing up
             if (Physics2D.OverlapBox(
                     (Vector2)transform.position + originalOffset,
                     originalSize, 0f, groundLayer))
@@ -236,6 +242,7 @@ public class RealPlayerControls : MonoBehaviour
             }
         }
         if (isCrouching) return;
+        if (health != null && health.IsInHitstun) return;
     }
 
     private void GroundCheck()

@@ -65,7 +65,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard2",
+                    "groups": "Player2Keys",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -142,7 +142,7 @@
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard2",
+                    "groups": "Player2Keys",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -153,7 +153,7 @@
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard2",
+                    "groups": "Player2Keys",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -175,7 +175,7 @@
                     "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard2",
+                    "groups": "Player2Keys",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -197,7 +197,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard2",
+                    "groups": "Player2Keys",
                     "action": "Crouch + Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -207,8 +207,8 @@
     ],
     "controlSchemes": [
         {
-            "name": "Keyboard",
-            "bindingGroup": "Keyboard",
+            "name": "Player1Keys",
+            "bindingGroup": "Player1Keys",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
@@ -218,8 +218,8 @@
             ]
         },
         {
-            "name": "Keyboard2",
-            "bindingGroup": "Keyboard2",
+            "name": "Player2Keys",
+            "bindingGroup": "Player2Keys",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
