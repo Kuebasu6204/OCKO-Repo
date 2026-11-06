@@ -54,7 +54,7 @@
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player1Keys",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -66,6 +66,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player2Keys",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce3a3371-56c3-434f-adc1-efe24ff18f7a",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -87,7 +98,7 @@
                     "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player1Keys",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -98,7 +109,7 @@
                     "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player1Keys",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -109,7 +120,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player1Keys",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -120,7 +131,7 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player1Keys",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -160,11 +171,22 @@
                 },
                 {
                     "name": "",
+                    "id": "16bea2df-ed5a-4cda-a48d-186b6a95387b",
+                    "path": "<Gamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e351c1e5-5463-4171-aa8c-207097ecc480",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player1Keys",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -182,11 +204,22 @@
                 },
                 {
                     "name": "",
+                    "id": "f11c265e-8df5-4a27-a9ef-fe4152575b41",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ece958ba-490d-444f-ad74-550a89b4dc84",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Player1Keys",
                     "action": "Crouch + Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -198,6 +231,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player2Keys",
+                    "action": "Crouch + Drop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cd4b9c80-02f6-4386-80e7-8c98d775123a",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
                     "action": "Crouch + Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -223,6 +267,17 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Gamepad",
+            "bindingGroup": "Gamepad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }

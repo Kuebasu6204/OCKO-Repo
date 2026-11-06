@@ -56,6 +56,9 @@ public class RealPlayerControls : MonoBehaviour
     private float lastAttackTime = -10f;
 
     private Health health;
+    private Health healthComp;
+    private bool CanAct => healthComp == null
+                        || (!healthComp.IsInHitstun && !healthComp.IsDead);
 
     private void Start()
     {
@@ -63,14 +66,22 @@ public class RealPlayerControls : MonoBehaviour
         originalSize = playerCollider.size;
         originalOffset = playerCollider.offset;
         health = GetComponent<Health>();
+        healthComp = GetComponent<Health>();
     }
 
     void Update()
     {
+        if (healthComp != null && (healthComp.IsInHitstun || healthComp.IsDead))
+        {
+            // still apply gravity so they don't float, but no horizontal input
+            GroundCheck();
+            Gravity();
+            return;
+        }
         float speed = isCrouching ? moveSpeed * crouchSpeedMultiplier : moveSpeed;
         if (isAttacking) speed = 0f;
         if (isAttacking || (health != null && health.IsInHitstun)) speed = 0f;
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocity.y);
         GroundCheck();
         Gravity();
         float current = spriteTransform.localScale.y;
@@ -103,6 +114,7 @@ public class RealPlayerControls : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
+        if (health != null && health.IsInHitstun) return;
         if (context.performed
             && !isAttacking
             && !isCrouching
@@ -111,7 +123,7 @@ public class RealPlayerControls : MonoBehaviour
         {
             StartCoroutine(PerformAttack());
         }
-        if (health != null && health.IsInHitstun) return;
+        
     }
 
     private IEnumerator PerformAttack()
@@ -129,6 +141,7 @@ public class RealPlayerControls : MonoBehaviour
         yield return new WaitForSeconds(attackRecovery);
 
         isAttacking = false;
+        
     }
 
     private void DoHitCheck()
@@ -152,6 +165,7 @@ public class RealPlayerControls : MonoBehaviour
 
     public void Drop (InputAction.CallbackContext context)
     {
+        if (health != null && health.IsInHitstun) return;
         if (context.performed && isGrounded && !isAttacking)
         {
             float timeSinceLast = Time.time - lastDownPressTime;
@@ -173,7 +187,7 @@ public class RealPlayerControls : MonoBehaviour
         {
             SetCrouch(false);
         }
-        if (health != null && health.IsInHitstun) return;
+        
     }
 
     private void SetCrouch(bool crouch)
@@ -228,6 +242,8 @@ public class RealPlayerControls : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context)
     {
+        if (isCrouching) return;
+        if (health != null && health.IsInHitstun) return;
         if (jumpsRemaining > 0)
         {
             if (context.performed)
@@ -241,8 +257,7 @@ public class RealPlayerControls : MonoBehaviour
                 jumpsRemaining--;
             }
         }
-        if (isCrouching) return;
-        if (health != null && health.IsInHitstun) return;
+       
     }
 
     private void GroundCheck()
@@ -273,4 +288,24 @@ public class RealPlayerControls : MonoBehaviour
                          + new Vector2(facingDir * attackOffsetX, 0f);
         Gizmos.DrawWireCube(center, attackSize);
     }
+
+    public void ResetForRespawn()
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        isAttacking = false;
+        isCrouching = false;
+        isGrounded = false;
+        isOnPlatform = false;
+
+        jumpsRemaining = maxJumps;
+        horizontalMovement = 0f;
+        lastDownPressTime = -10f;
+
+        if (spriteTransform != null)
+            spriteTransform.localScale = new Vector3(1f, 1f, 1f);
+    }
+
+
+
 }
