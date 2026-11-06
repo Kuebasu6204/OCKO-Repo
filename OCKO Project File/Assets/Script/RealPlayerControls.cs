@@ -9,6 +9,7 @@ public class RealPlayerControls : MonoBehaviour
     public Rigidbody2D rb;
     BoxCollider2D playerCollider;
 
+    [SerializeField] Animator animator;
 
     public float moveSpeed = 5f;
     float horizontalMovement;

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7796032841408426084}
   - component: {fileID: 8264168904374555970}
   - component: {fileID: 2437057499136282668}
+  - component: {fileID: 6976174112099030795}
   m_Layer: 6
   m_Name: Player 2
   m_TagString: Untagged
@@ -262,7 +263,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Drop[/Keyboard/s,/Keyboard/downArrow]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: 1fb0dc33-106d-4f60-9b53-2890986a091b
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &8264168904374555970
@@ -278,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RealPlayerControls
   rb: {fileID: 2184442486093975159}
+  animator: {fileID: 0}
   moveSpeed: 5
   jumpPower: 10
   maxJumps: 2
@@ -317,8 +319,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7152153d1cc62db47a3f500c156476c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  health: 100
+  maxHealth: 100
   hitstunDuration: 0.15
+  iframeDuration: 0.05
+  startingLives: 3
+  respawnDelay: 1
+  respawnInvincibility: 1.5
+  spawnPoint: {fileID: 0}
+--- !u!95 &6976174112099030795
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765995972728391832}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bda672576ea8f6948a39c04163b3b19c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6248106555977309534
 GameObject:
   m_ObjectHideFlags: 0
