@@ -6,6 +6,9 @@ using UnityEngine;
 public class Health : MonoBehaviour, IDamageable 
 {
     public float maxHealth = 100f;
+    public float CurrentHealth => health;
+    public float MaxHealth => maxHealth;
+
     public float hitstunDuration = 0.15f;
 
     private float lastHitTime = -10f;
@@ -55,12 +58,13 @@ public class Health : MonoBehaviour, IDamageable
     public void TakeDamage(float amount, Vector2 knockback)
     {
         if (isInHitstun) return;
-
-        if (IsInvincible || isDead) return;
+        if (IsInvincible) return;
+        if (isDead) return;
 
         lastHitTime = Time.time;
 
         health -= amount;
+
         rb.linearVelocity = knockback;
         StartCoroutine(Hitstun());
 

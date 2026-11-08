@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RealPlayerControls
   rb: {fileID: 2184442486093975159}
-  animator: {fileID: 0}
+  animator: {fileID: 6976174112099030795}
   moveSpeed: 5
   jumpPower: 10
   maxJumps: 2
