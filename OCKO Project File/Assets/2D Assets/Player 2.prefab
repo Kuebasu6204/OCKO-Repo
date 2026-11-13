@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 17601d35b6890a04eabf956c61fa0b5c, type: 3}
+  m_Sprite: {fileID: 8999392631397101692, guid: 695c224a5bb858f47b988e3550505e4b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,17 +133,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.25417602, y: -0.37300372}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.7272727, y: 2.7272727}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.5291007, y: 1.9304135}
   m_EdgeRadius: 0
 --- !u!50 &2184442486093975159
 Rigidbody2D:
@@ -280,6 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RealPlayerControls
   rb: {fileID: 2184442486093975159}
   animator: {fileID: 6976174112099030795}
+  spriteTransform: {fileID: 1796978662501930591}
   moveSpeed: 5
   jumpPower: 10
   maxJumps: 2
@@ -293,9 +294,11 @@ MonoBehaviour:
   fallSpeedMuliplier: 2
   crouchSpeedMultiplier: 0.8
   doubleTapWindow: 0.25
-  spriteTransform: {fileID: 1796978662501930591}
   crouchScaleY: 0.5
   scaleLerpSpeed: 15
+  attackWidthFraction: 0.8
+  attackHeightFraction: 0.8
+  attackForwardGap: 0.05
   attackSize: {x: 0.9, y: 0.6}
   attackOffsetX: 0.6
   attackDamage: 10
@@ -373,7 +376,7 @@ Transform:
   m_GameObject: {fileID: 6248106555977309534}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.495, z: 0}
+  m_LocalPosition: {x: 0, y: -1.338, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

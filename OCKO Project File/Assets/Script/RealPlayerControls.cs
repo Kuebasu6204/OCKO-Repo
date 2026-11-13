@@ -8,7 +8,10 @@ using UnityEngine.InputSystem;
 public class RealPlayerControls : MonoBehaviour
 {
     public Rigidbody2D rb;
+
+    //Disabled for version without animations
     [SerializeField] Animator animator;
+
     BoxCollider2D playerCollider;
     private SpriteRenderer spriteRenderer;
     public Transform spriteTransform;
