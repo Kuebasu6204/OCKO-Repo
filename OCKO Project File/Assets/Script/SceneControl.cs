@@ -5,7 +5,7 @@ public class SceneControl : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Button was clicked!");
             SceneManager.LoadScene("SampleScene");

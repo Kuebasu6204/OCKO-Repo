@@ -327,14 +327,14 @@ MonoBehaviour:
   doubleTapWindow: 0.25
   crouchScaleY: 0.5
   scaleLerpSpeed: 15
-  attackWidthFraction: 0.8
-  attackHeightFraction: 0.8
-  attackForwardGap: 0.05
+  attackWidthFraction: 0.36
+  attackHeightFraction: 0.95
+  attackForwardGap: -1.07
   attackSize: {x: 0.9, y: 0.6}
   attackOffsetX: 0.6
   attackDamage: 10
   attackKnockback: 3
-  attackStartup: 0.05
+  attackStartup: 0.23
   attackActive: 0.1
   attackRecovery: 0.15
   attackCooldown: 0.05

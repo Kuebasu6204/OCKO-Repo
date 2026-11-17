@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: db567ea8c3a83d049b03d01161e4e09a, type: 3}
+  m_Actions: {fileID: 0}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -296,9 +296,9 @@ MonoBehaviour:
   doubleTapWindow: 0.25
   crouchScaleY: 0.5
   scaleLerpSpeed: 15
-  attackWidthFraction: 0.8
-  attackHeightFraction: 0.8
-  attackForwardGap: 0.05
+  attackWidthFraction: 0.56
+  attackHeightFraction: 0.94
+  attackForwardGap: 0.14
   attackSize: {x: 0.9, y: 0.6}
   attackOffsetX: 0.6
   attackDamage: 10

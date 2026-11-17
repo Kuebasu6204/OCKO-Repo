@@ -2,17 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+//using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.U2D;
 
 public class RealPlayerControls : MonoBehaviour
 {
     public Rigidbody2D rb;
 
-    //Disabled for version without animations
     [SerializeField] Animator animator;
 
-    BoxCollider2D playerCollider;
+	SpriteRenderer sprite;
+
+	BoxCollider2D playerCollider;
     private SpriteRenderer spriteRenderer;
     public Transform spriteTransform;
 
@@ -83,6 +86,10 @@ public class RealPlayerControls : MonoBehaviour
 
         if (spriteTransform != null)
             spriteRenderer = spriteTransform.GetComponentInChildren<SpriteRenderer>();
+
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -99,18 +106,36 @@ public class RealPlayerControls : MonoBehaviour
         }
         float speed = isCrouching ? moveSpeed * crouchSpeedMultiplier : moveSpeed;
         if (isAttacking || (healthComp != null && healthComp.IsInHitstun)) speed = 0f;
-        rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocity.y);
-        GroundCheck();
-        Gravity();
-        UpdateSpriteScale();
-
-        if (animator != null)
+        if (isAttacking == true)
         {
-            animator.SetFloat("yVelocity", rb.linearVelocity.y);
-            animator.SetFloat("magnitude", rb.linearVelocity.magnitude);
+            animator.SetBool("isAttacking", true);
+        }
+        else
+        {
+            animator.SetBool("isAttacking", false);
         }
 
-    }
+        rb.linearVelocity = new Vector2(horizontalMovement * speed, rb.linearVelocity.y);
+
+		GroundCheck();
+        Gravity();
+        UpdateSpriteScale();
+	}
+
+    private void FixedUpdate()
+    {
+		if (horizontalMovement != 0f)
+		{
+			sprite.flipX = horizontalMovement < 0;
+			animator.SetBool("isMoving", true);
+			Debug.Log(horizontalMovement);
+		}
+		else
+		{
+			Debug.Log(horizontalMovement);
+			animator.SetBool("isMoving", false);
+		}
+	}
 
     private void UpdateSpriteScale()
     {
