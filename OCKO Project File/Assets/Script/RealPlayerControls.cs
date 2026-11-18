@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.U2D;
 
 public class RealPlayerControls : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class RealPlayerControls : MonoBehaviour
 
     //Disabled for version without animations
     [SerializeField] Animator animator;
+    SpriteRenderer sprite;
 
     BoxCollider2D playerCollider;
     private SpriteRenderer spriteRenderer;
@@ -110,6 +112,38 @@ public class RealPlayerControls : MonoBehaviour
             animator.SetFloat("magnitude", rb.linearVelocity.magnitude);
         }
 
+        if (isAttacking == true)
+        {
+            animator.SetBool("isAttacking", true);
+        }
+        else
+        {
+            animator.SetBool("isAttacking", false);
+        }
+
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        {
+            animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
+
+        if (Gamepad.current.dpad.left.wasPressedThisFrame || Gamepad.current.dpad.right.wasPressedThisFrame)
+        {
+            animator.SetBool("isMoving2", true);
+        }
+        else
+        {
+            animator.SetBool("isMoving2", false);
+        }
+
+        if (Gamepad.current.buttonNorth.wasPressedThisFrame)
+        {
+			animator.SetTrigger("SudaAttack");
+		}
+        
     }
 
     private void UpdateSpriteScale()
